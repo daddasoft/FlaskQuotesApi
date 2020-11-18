@@ -32,5 +32,18 @@ def create(body, author, createdBy, category):
         return {"status": False, "message": "Can't add a New Quote ", "code": "ex02"}
 
 
+def destroy(id):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        cursor.execute("DELETE  FROM quotes WHERE id=%s", (id,))
+        database.commit()
+        if(cursor.rowcount > 0):
+            return 1
+        return -1
+    except:
+        return 0
+
+
 def paginate():
     pass
