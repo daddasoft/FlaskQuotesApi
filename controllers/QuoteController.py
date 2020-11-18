@@ -6,8 +6,9 @@ from middlewares.checkValideJsonFormat import CheckJson
 
 
 def index():
-    if (request.args.get("page")):
-        return Quote.paginate(request.args.get("page"))
+    page = request.args.get("page")
+    if (page):
+        return Quote.paginate(page)
     return Quote.get()
 
 
