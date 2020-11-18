@@ -5,3 +5,7 @@ from flask import request
 
 def index():
     return get()
+
+
+def store():
+    pass
