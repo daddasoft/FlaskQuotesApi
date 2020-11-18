@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, escape
+from flask_cors import CORS
 from config.env import env
 from controllers import QuoteController as Quote
 from models.Quote import destroy
@@ -6,6 +7,7 @@ from models.Quote import destroy
 
 QuotesApp = Flask(__name__)
 QuotesApp.config['SECRET_KEY'] = env("appSecret")
+CORS(QuotesApp)
 
 
 @QuotesApp.route("/")
@@ -25,7 +27,7 @@ def delete(id):
 
 @QuotesApp.route("/quotes",)
 def getQuotes():
-    data = Quote.get()
+    data = Quote.index()
     if("message" not in data and len(data) != 0):
         return jsonify(data), 200
     return jsonify(data), 404
