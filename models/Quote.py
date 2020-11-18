@@ -1,5 +1,6 @@
 from config.database import connect
 from utils.toDictionary import ToDictionary
+from utils.PaginationCreator import PgCreator
 
 
 def get():
@@ -45,5 +46,18 @@ def destroy(id):
         return 0
 
 
-def paginate():
-    pass
+def paginate(page=1):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        OFFSET = abs(5 * (int(page)-1))
+        cursor.execute(f"SELECT * FROM quotes LIMIT 5 OFFSET {OFFSET}")
+        result = cursor.fetchall()
+        cursor.execute(f"SELECT COUNT(*) FROM quotes")
+        res2 = cursor.fetchone()
+        resultByPG = PgCreator(res2[0], page, 5)
+        resultByPG["data"] = ToDictionary(result)
+        database.commit()
+        return resultByPG
+    except:
+        return {"message": "can't find any Quote"}
