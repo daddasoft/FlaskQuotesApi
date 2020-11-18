@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, escape
 from config.env import env
 from controllers import QuoteController as Quote
+from models.Quote import destroy
 
 
 QuotesApp = Flask(__name__)
@@ -15,6 +16,11 @@ def index():
 @QuotesApp.route("/quotes", methods=["POST"])
 def create():
     return Quote.store()
+
+
+@QuotesApp.route("/quotes/<id>", methods=["DELETE"])
+def delete(id):
+    return Quote.delete(id)
 
 
 @QuotesApp.route("/quotes",)
