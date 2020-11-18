@@ -2,7 +2,7 @@ from config.database import connect
 from utils.toDictionary import ToDictionary
 
 
-def index():
+def get():
     try:
         database = connect()
         cursor = database.cursor()
@@ -12,4 +12,8 @@ def index():
         database.commit()
         return result
     except:
-        return False
+        return {"message": "can't find any Quote"}
+
+
+def paginate():
+    pass
