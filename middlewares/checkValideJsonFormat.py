@@ -5,7 +5,7 @@ from flask.json import jsonify
 def CheckJson(fun):
     def nestedFunc():
         try:
-            data = request.get_json()
+            request.get_json()
         except:
             return jsonify({"message": "Make Sure You Have a valid Json Format"}), 400
         return fun()
