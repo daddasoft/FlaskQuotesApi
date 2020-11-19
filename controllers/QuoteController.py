@@ -1,3 +1,4 @@
+from math import ceil
 from flask.templating import render_template
 from middlewares.Auth import isAuth
 from models import Quote
@@ -46,4 +47,5 @@ def delete(id):
 def homeIndex():
     page = request.args["page"] if "page" in request.args else 1
     data = paginateforHome(page)
-    return render_template("index.html", data=data)
+    totalPages = ceil(data["count"]/5)
+    return render_template("index.html", data=data, total=int(totalPages), current=int(page), dataCount=len(data["data"]))
