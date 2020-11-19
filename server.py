@@ -2,7 +2,6 @@ from flask import Flask, jsonify, request, escape, render_template, session
 from flask_cors import CORS
 from config.env import env
 from controllers import QuoteController as Quote
-from models.Quote import destroy
 from controllers import UserController as User
 
 QuotesApp = Flask(__name__)
@@ -43,7 +42,12 @@ def registerPost():
     return User.create()
 
 
-@QuotesApp.route("/login",)
+@QuotesApp.route("/login", methods=["POST"])
+def loginPost():
+    return User.log()
+
+
+@QuotesApp.route("/login")
 def login():
     return render_template('auth/login.html', title="Login")
 
