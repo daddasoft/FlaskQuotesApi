@@ -61,3 +61,20 @@ def paginate(page=1):
         return resultByPG
     except:
         return {"message": "can't find any Quote"}
+
+
+def paginateforHome(page=1):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        OFFSET = abs(5 * (int(page)-1))
+        cursor.execute(f"SELECT * FROM quotes LIMIT 5 OFFSET {OFFSET}")
+        result = cursor.fetchall()
+        cursor.execute(f"SELECT COUNT(*) FROM quotes")
+        res2 = cursor.fetchone()
+        result = {"data": result, "pageCount": res2[0]}
+        print(result)
+        database.commit()
+        return result
+    except:
+        return {"message": "can't find any Quote"}
