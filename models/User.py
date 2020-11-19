@@ -13,3 +13,31 @@ def store(username, email, password, role="user"):
             return True
     except:
         return False
+
+
+def checkAvailableUsername(value):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        cursor.execute(f"SELECT id FROM users WHERE username = %s ", (value,))
+        cursor.fetchone()
+        database.commit()
+        if(cursor.rowcount > 0):
+            return True
+        return False
+    except:
+        return True
+
+
+def checkAvailableEmail(value):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        cursor.execute(f"SELECT id FROM users WHERE email = %s ", (value,))
+        cursor.fetchone()
+        database.commit()
+        if(cursor.rowcount > 0):
+            return True
+        return False
+    except:
+        return True
