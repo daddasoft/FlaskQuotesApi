@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, escape, render_template
+from flask import Flask, jsonify, request, escape, render_template, session
 from flask_cors import CORS
 from config.env import env
 from controllers import QuoteController as Quote
