@@ -1,3 +1,4 @@
+from flask.templating import render_template
 from middlewares.Auth import isAuth
 from models import Quote
 from flask import request, jsonify
@@ -5,6 +6,7 @@ from middlewares.Quoteinfo import SetDefault
 from middlewares.Trim import Trim
 from middlewares.checkValideJsonFormat import CheckJson
 from middlewares.isTheOwner import checkOwner
+from models.Quote import paginateforHome
 
 
 def index():
@@ -39,3 +41,9 @@ def delete(id):
         return jsonify({"message": "quote not found may it already deleted"}), 404
     else:
         return jsonify({"message": "quote can't be deleted"}), 400
+
+
+def homeIndex():
+    page = request.args["page"] if "page" in request.args else 1
+    data = paginateforHome(page)
+    return render_template("index.html", data=data)
