@@ -1,3 +1,4 @@
+from middlewares.Auth import isAuth
 from models import Quote
 from flask import request, jsonify
 from middlewares.Quoteinfo import SetDefault
@@ -27,6 +28,7 @@ def store():
     return jsonify({"message": createQuote["message"]}), 400
 
 
+@isAuth
 def delete(id):
     res = Quote.destroy(id)
     if(res > 0):
