@@ -1,0 +1,40 @@
+{% extends 'layout.html' %} {% block content%}
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <div class="ui error message">
+      <div class="header">Could you check something!</div>
+      <ul class="list">
+        <li>That e-mail has been subscribed,</li>
+        <li>That e-mail has been subscribed,</li>
+        <li>That e-mail has been subscribed,</li>
+        <li>That e-mail has been subscribed,</li>
+      </ul>
+    </div>
+    <form class="ui large form">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input
+              type="text"
+              name="username"
+              placeholder="E-mail address or username"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="Password" />
+          </div>
+        </div>
+        <button class="ui fluid large teal submit button">Login</button>
+      </div>
+    </form>
+
+    <div class="ui message">
+      New to us? <a href="{{url_for('register')}}">Sign Up</a>
+    </div>
+  </div>
+</div>
+{%endblock%}
