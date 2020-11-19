@@ -21,13 +21,23 @@
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            <input type="text" name="username" placeholder="username" />
+            <input
+              type="text"
+              name="username"
+              value="{{username or ''}}"
+              placeholder="username"
+            />
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            <input type="text" name="email" placeholder="E-mail address" />
+            <input
+              type="text"
+              name="email"
+              value="{{email or ''}}"
+              placeholder="E-mail address"
+            />
           </div>
         </div>
         <div class="field">
