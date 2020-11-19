@@ -30,7 +30,9 @@
               <a class="item" href="#">Profile</a>
               <a class="item" href="#">Change Password</a>
               <div class="divider"></div>
-              <a class="item" href="#">Log Out</a>
+              <form action="{{url_for('logout')}}" method="post">
+                <button class="logout">Log Out</button>
+              </form>
             </div>
           </div>
           {%endif%}
