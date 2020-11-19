@@ -10,7 +10,7 @@ CORS(QuotesApp)
 
 @QuotesApp.route("/")
 def index():
-    return render_template("index.html")
+    return Quote.homeIndex()
 
 
 @QuotesApp.route("/quotes", methods=["POST"])
