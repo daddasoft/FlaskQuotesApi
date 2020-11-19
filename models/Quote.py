@@ -72,8 +72,7 @@ def paginateforHome(page=1):
         result = cursor.fetchall()
         cursor.execute(f"SELECT COUNT(*) FROM quotes")
         res2 = cursor.fetchone()
-        result = {"data": result, "pageCount": res2[0]}
-        print(result)
+        result = {"data": result, "count": res2[0]}
         database.commit()
         return result
     except:
