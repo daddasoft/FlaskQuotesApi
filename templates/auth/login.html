@@ -1,16 +1,18 @@
 {% extends 'layout.html' %} {% block content%}
 <div class="ui middle aligned center aligned grid">
   <div class="column">
+    {% if errors%}
     <div class="ui error message">
       <div class="header">Could you check something!</div>
       <ul class="list">
-        <li>That e-mail has been subscribed,</li>
-        <li>That e-mail has been subscribed,</li>
-        <li>That e-mail has been subscribed,</li>
-        <li>That e-mail has been subscribed,</li>
+        {%for key,value in errors.items()%}
+        <li>{{key}} : {{value}}</li>
+        {%endfor%}
       </ul>
     </div>
-    <form class="ui large form">
+
+    {%endif%}
+    <form class="ui large form" action="{{url_for('loginPost')}}" method="POST">
       <div class="ui stacked segment">
         <div class="field">
           <div class="ui left icon input">
