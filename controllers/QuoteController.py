@@ -4,6 +4,7 @@ from flask import request, jsonify
 from middlewares.Quoteinfo import SetDefault
 from middlewares.Trim import Trim
 from middlewares.checkValideJsonFormat import CheckJson
+from middlewares.isTheOwner import checkOwner
 
 
 def index():
@@ -29,6 +30,7 @@ def store():
 
 
 @isAuth
+@checkOwner
 def delete(id):
     res = Quote.destroy(id)
     if(res > 0):
