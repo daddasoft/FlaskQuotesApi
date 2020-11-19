@@ -1,9 +1,8 @@
-from flask import Flask, jsonify, request, escape, render_template, session
+from flask import Flask, jsonify, render_template, session, redirect, url_for
 from flask_cors import CORS
 from config.env import env
 from controllers import QuoteController as Quote
 from controllers import UserController as User
-
 QuotesApp = Flask(__name__)
 QuotesApp.config['SECRET_KEY'] = env("appSecret")
 CORS(QuotesApp)
@@ -32,8 +31,10 @@ def getQuotes():
     return jsonify(data), 404
 
 
-@QuotesApp.route("/register",)
+@QuotesApp.route("/register")
 def register():
+    if("user" in session):
+        return redirect(url_for('index'))
     return render_template('auth/register.html', title="Register")
 
 
@@ -49,7 +50,14 @@ def loginPost():
 
 @QuotesApp.route("/login")
 def login():
+    if("user" in session):
+        return redirect(url_for('index'))
     return render_template('auth/login.html', title="Login")
+
+
+@QuotesApp.route("/logout")
+def logoutGet():
+    return redirect(url_for('index'))
 
 
 @QuotesApp.route("/logout", methods=["POST"])
