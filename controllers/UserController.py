@@ -20,9 +20,10 @@ def create():
 
 @LoginValidator
 def log():
-    username = request.form["username"]
-    password = request.form["password"]
+    username = request.form["username"].strip()
+    password = request.form["password"].strip()
     user = login(username)
+    errors = {}
     if(user["status"] == True):
         if(check_password_hash(user["password"], password)):
             session["id"] = user["userId"]
@@ -30,8 +31,15 @@ def log():
             session["role"] = user["role"]
             return redirect(url_for('index'))
         else:
-            print("Invalid Password")
-            return render_template('auth/login.html')
+            errors["password"] = "your password is incorrect"
+            return render_template('auth/login.html', errors=errors, username=username)
     else:
-        print(user["message"])
-        return render_template('auth/login.html')
+        errors["username-email"] = "your username or Email not found"
+        return render_template('auth/login.html', errors=errors, username=username)
+
+
+def logout():
+    session.pop("user", '')
+    session.pop("id", '')
+    session.pop("role", '')
+    return redirect(url_for('index'))
