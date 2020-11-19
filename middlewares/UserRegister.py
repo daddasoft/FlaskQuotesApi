@@ -31,6 +31,6 @@ def RegisterValidator(fun):
         if("password-confirm" not in data or data["password-confirm"] != data["password"]):
             errors["password-confirm"] = "Confirm Password not valid"
         if(errors):
-            return render_template('auth/register.html', errors=errors)
+            return render_template('auth/register.html', errors=errors, email=data["email"], username=data["username"])
         return fun()
     return nestedFunc
