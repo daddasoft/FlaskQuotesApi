@@ -15,7 +15,7 @@ def RegisterValidator(fun):
         elif (len(data["username"]) < 6 or len(data["username"]) > 15):
             errors["username"] = "Username Should be between 6 and 15 Characters"
         else:
-            if(checkAvailableUsername(data["username"])):
+            if(checkAvailableUsername(data["username"].strip())):
                 errors["username"] = "There is a user with this Username"
         # Email Validation
         if("email" not in data or not re.search("[A-z0-9\.]+@[A-z0-9]+\.[A-z]+", data["email"])):
@@ -26,7 +26,7 @@ def RegisterValidator(fun):
             if(checkAvailableEmail(data["email"])):
                 errors["email"] = "email is Already Exist"
         # username Password
-        if("password" not in data or len(data["password"]) < 6 or len(data["password"]) > 20):
+        if("password" not in data or len(data["password"].strip()) < 6 or len(data["password"].strip()) > 20):
             errors["password"] = "password should contain between 6 and 20 characters"
         if("password-confirm" not in data or data["password-confirm"] != data["password"]):
             errors["password-confirm"] = "Confirm Password not valid"
