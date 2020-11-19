@@ -52,5 +52,10 @@ def login():
     return render_template('auth/login.html', title="Login")
 
 
+@QuotesApp.route("/logout", methods=["POST"])
+def logout():
+    return User.logout()
+
+
 if(__name__ == "__main__"):
     QuotesApp.run(port=5000, debug=True)
