@@ -1,5 +1,11 @@
 {% extends 'layout.html' %} {% block content%}
-
-<h1>Home Doe</h1>
-
+<div class="ui container">
+  {%if "data" in data %} {%for quote in data["data"]%}
+  <div class="card column">
+    <div class="ui segment">
+      <p>{{quote[1]}}</p>
+    </div>
+  </div>
+  {%endfor%} {%endif%}
+</div>
 {%endblock%}
