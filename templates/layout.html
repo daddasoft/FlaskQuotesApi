@@ -4,16 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{title}}</title>
-    <link rel="stylesheet" href="semantic.min.css" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='css/semantic.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='css/app.css')}}"
+    />
   </head>
   <body>
     <div class="ui inverted menu">
       <div class="ui container">
-        <a href="#" class="item">Home</a>
-        <a href="#" class="item">Quotes</a>
+        <a href="{{url_for('index')}}" class="item">Home</a>
+        <a href="{{url_for('getQuotes')}}" class="item">Quotes</a>
         <div class="right menu">
-          <a href="login.html" class="item">Login</a>
-          <a href="" class="item">Register</a>
+          <a href="{{url_for('login')}}" class="item">Login</a>
+          <a href="{{url_for('register')}}" class="item">Register</a>
           <div class="ui simple dropdown item">
             Daddasoft <i class="dropdown icon"></i>
             <div class="menu">
