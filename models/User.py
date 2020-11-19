@@ -41,3 +41,18 @@ def checkAvailableEmail(value):
         return False
     except:
         return True
+
+
+def login(username):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        sql = f"SELECT id,password,role,username FROM `users` WHERE username=%s or email =%s"
+        cursor.execute(sql, (username, username))
+        res = cursor.fetchone()
+        database.commit()
+        if(cursor.rowcount > 0):
+            return {"status": True, "userId": res[0], "username": res[3], "password": res[1], "role": res[2]}
+        return {"status": False, "message": "user not found"}
+    except:
+        return {"status": False, "message": "can't fetch a user"}
