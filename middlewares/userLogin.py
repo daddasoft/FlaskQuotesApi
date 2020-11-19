@@ -12,6 +12,7 @@ def LoginValidator(fun):
         if("password" not in data or len(data["password"]) < 6):
             errors["password"] = "password Should at least contains 6 characters"
         if(errors):
-            return render_template("auth/login.html", errors=errors)
+            username = data["username"] if "username" in data else ""
+            return render_template("auth/login.html", errors=errors, username=username)
         return fun()
     return nestedFunc
