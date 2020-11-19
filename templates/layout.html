@@ -19,9 +19,10 @@
         <a href="{{url_for('index')}}" class="item">Home</a>
         <a href="{{url_for('getQuotes')}}" class="item">Quotes</a>
         <div class="right menu">
+          {%if "user" not in session%}
           <a href="{{url_for('login')}}" class="item">Login</a>
           <a href="{{url_for('register')}}" class="item">Register</a>
-          {%if "user" in session%}
+          {%endif%} {%if "user" in session%}
           <div class="ui simple dropdown item">
             {{session["user"]}} <i class="dropdown icon"></i>
             <div class="menu">
