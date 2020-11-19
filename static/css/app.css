@@ -13,12 +13,6 @@ body > .grid {
 .ui.inverted.menu {
   border-radius: 0;
 }
-label {
-  display: block;
-  padding: 3px;
-  font-size: 17px;
-  text-align: left;
-}
 .logout {
   border: none;
   width: 100%;
