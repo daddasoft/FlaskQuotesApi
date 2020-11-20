@@ -16,7 +16,7 @@ def create():
     email = request.form["email"]
     password = generate_password_hash(request.form["password"])
     if(store(username, email, password)):
-        return redirect(url_for('index'))
+        return render_template('auth/login.html', username=username, message="Account Created Successfully")
     return render_template('auth/register.html')
 
 
