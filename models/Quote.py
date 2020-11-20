@@ -7,7 +7,7 @@ def get():
     try:
         database = connect()
         cursor = database.cursor()
-        cursor.execute("SELECT * FROM quotes")
+        cursor.execute("SELECT * FROM quotes order by createdAt DESC")
         result = cursor.fetchall()
         result = ToDictionary(result)
         database.commit()
@@ -33,11 +33,12 @@ def create(body, author, createdBy, category):
         return {"status": False, "message": "Can't add a New Quote ", "code": "ex02"}
 
 
-def destroy(id):
+def destroy(id, userId):
     try:
         database = connect()
         cursor = database.cursor()
-        cursor.execute("DELETE  FROM quotes WHERE id=%s", (id,))
+        cursor.execute(
+            "DELETE  FROM quotes WHERE id=%s and createdBy = %s", (id, userId))
         database.commit()
         if(cursor.rowcount > 0):
             return 1
@@ -51,7 +52,8 @@ def paginate(page=1):
         database = connect()
         cursor = database.cursor()
         OFFSET = abs(5 * (int(page)-1))
-        cursor.execute(f"SELECT * FROM quotes LIMIT 5 OFFSET {OFFSET}")
+        cursor.execute(
+            f"SELECT * FROM quotes order by createdAt DESC LIMIT 5 OFFSET {OFFSET}")
         result = cursor.fetchall()
         cursor.execute(f"SELECT COUNT(*) FROM quotes")
         res2 = cursor.fetchone()
@@ -68,7 +70,8 @@ def paginateforHome(page=1):
         database = connect()
         cursor = database.cursor()
         OFFSET = abs(5 * (int(page)-1))
-        cursor.execute(f"SELECT * FROM quotes LIMIT 5 OFFSET {OFFSET}")
+        cursor.execute(
+            f"SELECT * FROM quotes order by createdAt DESC LIMIT  5 OFFSET {OFFSET}")
         result = cursor.fetchall()
         cursor.execute(f"SELECT COUNT(*) FROM quotes")
         res2 = cursor.fetchone()
