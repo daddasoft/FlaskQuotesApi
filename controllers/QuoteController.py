@@ -9,6 +9,7 @@ from middlewares.Trim import Trim
 from middlewares.checkValideJsonFormat import CheckJson
 from middlewares.isTheOwner import checkOwner
 from models.Quote import paginateforHome
+from models.Quote import random
 
 
 def index():
@@ -54,3 +55,10 @@ def homeIndex():
         return render_template("index.html")
     totalPages = ceil(data["count"]/5)
     return render_template("index.html", data=data, total=int(totalPages), current=int(page), dataCount=len(data["data"]))
+
+
+def randomize():
+    data = random()
+    if("message" in data):
+        return jsonify(data), 400
+    return jsonify(data), 200
