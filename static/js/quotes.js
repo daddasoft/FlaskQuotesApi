@@ -1,21 +1,23 @@
 const form = document.getElementById("quoteForm");
+const API_URL = "http://localhost:5000/quotes";
 const button = document.getElementById("btn");
-// const errors = document.querySelector("")
-// const errors = document.querySelector("")
-form.addEventListener("submit", (e) => {
-  const { author, category, body } = form;
-  button.classList.add("loading");
-  addQuote({
-    author: author.value,
-    category: category.value,
-    body: body.value,
+const cardContainer = document.querySelector(".cardContainer");
+if (form) {
+  form.addEventListener("submit", (e) => {
+    const { author, category, body } = form;
+    button.classList.add("loading");
+    addQuote({
+      author: author.value,
+      category: category.value,
+      body: body.value,
+    });
+    e.preventDefault();
   });
-  e.preventDefault();
-});
+}
 
 async function addQuote(dataObj) {
   axios
-    .post("http://localhost:5000/quotes", dataObj)
+    .post(API_URL, dataObj)
     .then((data) => {
       button.classList.remove("loading");
       ShowSuccess("Quote added Successfully");
@@ -29,6 +31,16 @@ async function addQuote(dataObj) {
     });
 }
 
+async function DeleteQuote(id) {
+  axios
+    .delete(`${API_URL}/${id}`)
+    .then((res) => {
+      ShowSuccess("Quote Deleted Successfully");
+    })
+    .catch((err) => {
+      ShowError(err.response.data.message);
+    });
+}
 function ShowError(message) {
   const out = document.getElementById("errorMessage");
   const errorContainer = document.querySelector(".errorContainer");
@@ -36,7 +48,7 @@ function ShowError(message) {
   errorContainer.style.display = "block";
   setTimeout(() => {
     errorContainer.style.display = "none";
-  }, 2000);
+  }, 1000);
 }
 function ShowSuccess(message) {
   const out = document.getElementById("successMessage");
@@ -45,5 +57,6 @@ function ShowSuccess(message) {
   successContainer.style.display = "block";
   setTimeout(() => {
     successContainer.style.display = "none";
-  }, 2000);
+    window.location.reload();
+  }, 1000);
 }
