@@ -1,6 +1,23 @@
 {% extends 'layout.html' %} {% block content%}
 <div class="ui container">
-  {%if "data" in data and dataCount >0 %} {%for quote in data["data"]%}
+  {%if "user" in session %}
+  <form class="ui form">
+    <div class="field">
+      <label>Author</label>
+      <input type="text" name="first-name" placeholder="First Name" />
+    </div>
+    <div class="field">
+      <label>Category</label>
+      <input type="text" name="last-name" placeholder="Last Name" />
+    </div>
+    <div class="field">
+      <label>Quote Content</label>
+      <textarea rows="2"></textarea>
+    </div>
+    <button class="ui button" type="submit">add</button>
+  </form>
+  {%endif%} {%if "data" in data and dataCount >0 %} {%for quote in
+  data["data"]%}
   <div class="card column">
     <div class="ui segment">
       <p>{{quote[1]}}</p>
