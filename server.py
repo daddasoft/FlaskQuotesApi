@@ -23,6 +23,11 @@ def delete(id):
     return Quote.delete(id)
 
 
+@QuotesApp.route("/quotes/random",)
+def randomQ():
+    return Quote.randomize()
+
+
 @QuotesApp.route("/quotes",)
 def getQuotes():
     data = Quote.index()
