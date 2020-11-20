@@ -47,5 +47,7 @@ def delete(id):
 def homeIndex():
     page = request.args["page"] if "page" in request.args else 1
     data = paginateforHome(page)
+    if("message" in data):
+        return render_template("index.html")
     totalPages = ceil(data["count"]/5)
     return render_template("index.html", data=data, total=int(totalPages), current=int(page), dataCount=len(data["data"]))
