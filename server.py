@@ -13,22 +13,22 @@ def index():
     return Quote.homeIndex()
 
 
-@QuotesApp.route("/quotes", methods=["POST"])
+@QuotesApp.route("/api/quotes", methods=["POST"])
 def create():
     return Quote.store()
 
 
-@QuotesApp.route("/quotes/<id>", methods=["DELETE"])
+@QuotesApp.route("/api/quotes/<id>", methods=["DELETE"])
 def delete(id):
     return Quote.delete(id)
 
 
-@QuotesApp.route("/quotes/random",)
+@QuotesApp.route("/api/quotes/random",)
 def randomQ():
     return Quote.randomize()
 
 
-@QuotesApp.route("/quotes",)
+@QuotesApp.route("/api/quotes",)
 def getQuotes():
     data = Quote.index()
     if("message" not in data and len(data) != 0):
