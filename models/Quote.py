@@ -80,3 +80,18 @@ def paginateforHome(page=1):
         return result
     except:
         return {"message": "can't find any Quote"}
+
+
+def random():
+    try:
+        database = connect()
+        cursor = database.cursor()
+        cursor.execute(
+            "SELECT body,author,category FROM quotes ORDER BY RAND() LIMIT 1")
+        result = cursor.fetchone()
+        database.commit()
+        if(cursor.rowcount > 0):
+            return {"body": result[0], "author": result[1], "category": result[2]}
+        return {"message": "can't find any Quote"}
+    except:
+        return {"message": "Error for find any Quote"}
