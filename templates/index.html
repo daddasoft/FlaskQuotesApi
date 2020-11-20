@@ -1,21 +1,31 @@
 {% extends 'layout.html' %} {% block content%}
 <div class="ui container">
   {%if "user" in session %}
-  <form class="ui form">
+  <div class="ui error message errorContainer" style="display: none">
+    <div class="header">Action Forbidden</div>
+    <p id="errorMessage"></p>
+  </div>
+  <div class="ui success message successContainer" style="display: none">
+    <div class="header">Action Forbidden</div>
+    <p id="successMessage"></p>
+  </div>
+  <form class="ui form" id="quoteForm">
     <div class="field">
       <label>Author</label>
-      <input type="text" name="first-name" placeholder="First Name" />
+      <input type="text" name="author" placeholder="Author name" />
     </div>
     <div class="field">
       <label>Category</label>
-      <input type="text" name="last-name" placeholder="Last Name" />
+      <input type="text" name="category" placeholder="Category" />
     </div>
     <div class="field">
       <label>Quote Content</label>
-      <textarea rows="2"></textarea>
+      <textarea rows="2" name="body"></textarea>
     </div>
-    <button class="ui button" type="submit">add</button>
+    <button id="btn" class="ui button primary" type="submit">add</button>
   </form>
+  <div class="ui divider"></div>
+
   {%endif%} {%if "data" in data and dataCount >0 %} {%for quote in
   data["data"]%}
   <div class="card column">
@@ -60,4 +70,6 @@
   <h1>nooo</h1>
   {%endif%}
 </div>
+<script src="{{url_for('static',filename='js/axios.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/quotes.js')}}"></script>
 {%endblock%}
