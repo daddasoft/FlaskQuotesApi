@@ -1,6 +1,12 @@
 {% extends 'layout.html' %} {% block content%}
 <div class="ui middle aligned center aligned grid">
   <div class="column">
+    {%if message%}
+    <div class="ui success message">
+      <p>{{message}}</p>
+    </div>
+    {%endif%}
+    <!--  -->
     {% if errors%}
     <div class="ui error message">
       <div class="header">Could you check something!</div>
