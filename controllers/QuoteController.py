@@ -1,4 +1,5 @@
 from math import ceil
+from flask.globals import session
 from flask.templating import render_template
 from middlewares.Auth import isAuth
 from models import Quote
@@ -21,10 +22,12 @@ def index():
 @Trim
 @SetDefault
 def store():
+    if("user" not in session):
+        return jsonify({"message": "you Should be logged in"}), 401
     data = request.get_json()
     body = data["body"]
     category = data["category"]
-    createdBy = 8
+    createdBy = session["id"]
     author = data["author"]
     createQuote = Quote.create(body, author, createdBy, category)
     if(createQuote["status"]):
