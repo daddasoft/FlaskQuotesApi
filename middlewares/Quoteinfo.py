@@ -4,8 +4,8 @@ from flask import request, jsonify
 def SetDefault(fun):
     def nestedFunc():
         data = request.get_json()
-        if("body" not in data or len(data["body"]) < 5):
-            return jsonify({"message": "Body Should Contain At Least 5 Characters",
+        if("body" not in data or len(data["body"]) < 5 or len(data["body"]) > 500):
+            return jsonify({"message": "Body Should Contain At Least 5 Characters and 500 as maximum",
                             "field": "body"}), 400
         if("category" not in data or len(data["category"]) < 2):
             data["category"] = "other"
