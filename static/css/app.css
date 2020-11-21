@@ -21,6 +21,7 @@ body > .grid {
   color: black;
   padding: 10px;
   background: #fff;
+  outline: none;
 }
 .logout:hover {
   background: rgba(0, 0, 0, 0.05) !important;
@@ -34,4 +35,16 @@ body > .grid {
 .column .segment {
   width: 100% !important;
   font-size: 18px;
+}
+
+i.icon.quote.left:before {
+  top: -4px;
+  right: -4px;
+  position: relative;
+}
+
+i.icon.quote.right:before {
+  left: 4px;
+  top: -2px;
+  position: relative;
 }
