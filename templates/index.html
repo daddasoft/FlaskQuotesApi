@@ -85,7 +85,10 @@
   </div>
   <!-- Hello -->
   {%else%}
-  <h1>nooo</h1>
+  <div class="ui warning message">
+    <div class="header">404</div>
+    <p>no quote found ⌛</p>
+  </div>
   {%endif%}
 </div>
 <script src="{{url_for('static',filename='js/axios.min.js')}}"></script>
