@@ -16,7 +16,21 @@
     </div>
     <div class="field">
       <label>Category</label>
-      <input type="text" name="category" placeholder="Category" />
+      <select name="category" class="ui search dropdown">
+        <option value="">Select a Category</option>
+        <option value="Business">Business</option>
+        <option value="Change">Change</option>
+        <option value="Children">Children</option>
+        <option value="Courage">Courage</option>
+        <option value="Beauty">Beauty</option>
+        <option value="Family">Family</option>
+        <option value="Sports">Sports</option>
+        <option value="Science">Science</option>
+        <option value="Love">Love</option>
+        <option value="Money">Money</option>
+        <option value="Movies">Movies</option>
+        <option value="Success">Success</option>
+      </select>
     </div>
     <div class="field">
       <label>Quote Content</label>
@@ -35,7 +49,11 @@
         <div class="meta">
           <span class="date">Posted in {{quote[5]}}</span>
         </div>
-        <p class="description" style="word-break: break-all">{{quote[1]}}</p>
+        <p class="description" style="word-break: break-all">
+          <i class="quote left icon"></i> {{quote[1]}}<i
+            class="quote right icon"
+          ></i>
+        </p>
       </div>
       {%if quote[3] == session["id"]%}
       <div class="extra content">
@@ -58,9 +76,11 @@
       {%if total > 1%}
       <!--  -->
       {%if (current-1 < 1) %}
-      <a class="ui button primary disabled">prev</a>
+      <a class="ui button primary disabled"><i class="angle left icon"></i></a>
       {%else%}
-      <a class="ui button primary" href="?page={{current-1}}" disabled>prev</a>
+      <a class="ui button primary" href="?page={{current-1}}" disabled
+        ><i class="angle left icon"></i
+      ></a>
       <!--  -->
       {%endif%}
       <!--  -->
@@ -74,9 +94,11 @@
       {%endfor%}
       <!--  -->
       {%if( current+1 > total) %}
-      <a class="ui button primary disabled">next</a>
+      <a class="ui button primary disabled"><i class="angle right icon"></i></a>
       {%else%}
-      <a class="ui button primary" href="?page={{current+1}}">next</a>
+      <a class="ui button primary" href="?page={{current+1}}"
+        ><i class="angle right icon"></i
+      ></a>
       {%endif%}
 
       <!--  -->
