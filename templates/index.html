@@ -35,11 +35,11 @@
         <div class="meta">
           <span class="date">Posted in {{quote[5]}}</span>
         </div>
-        <p class="description">{{quote[1]}}</p>
+        <p class="description" style="word-break: break-all">{{quote[1]}}</p>
       </div>
       {%if quote[3] == session["id"]%}
       <div class="extra content">
-        <button class="ui button red" onclick="DeleteQuote({{quote[0]}})">
+        <button class="ui button basic red" onclick="DeleteQuote({{quote[0]}})">
           <i class="trash icon"></i>
           Delete
         </button>
