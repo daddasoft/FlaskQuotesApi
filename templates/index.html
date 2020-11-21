@@ -25,23 +25,26 @@
     <button id="btn" class="ui button primary" type="submit">add</button>
   </form>
   <div class="ui divider"></div>
-  <div class="cardContainer">
-    {%endif%} {%if "data" in data and dataCount >0 %} {%for quote in
-    data["data"]%}
+  {%endif%} {%if "data" in data and dataCount >0 %} {%for quote in
+  data["data"]%}
 
-    <div class="card column">
-      <div class="ui segment">
-        <p>{{quote[1]}}</p>
-        {%if quote[3] == session["id"]%}
-        <div class="ui divider"></div>
-        <button
-          class="ui button red delete"
-          onclick="DeleteQuote({{quote[0]}})"
-        >
-          delete
-        </button>
-        {%endif%}
+  <div class="cardContainer">
+    <div class="ui card column" style="width: 100%">
+      <div class="content">
+        <span class="header">{{quote[2]}}</span>
+        <div class="meta">
+          <span class="date">Posted in {{quote[5]}}</span>
+        </div>
+        <p class="description">{{quote[1]}}</p>
       </div>
+      {%if quote[3] == session["id"]%}
+      <div class="extra content">
+        <button class="ui button red" onclick="DeleteQuote({{quote[0]}})">
+          <i class="trash icon"></i>
+          Delete
+        </button>
+      </div>
+      {%endif%}
     </div>
     {%endfor%}
   </div>
