@@ -1,5 +1,5 @@
 const form = document.getElementById("quoteForm");
-const API_URL = "http://localhost:5000/api/quotes";
+const API_URL = "/api/quotes";
 const button = document.getElementById("btn");
 const cardContainer = document.querySelector(".cardContainer");
 if (form) {
