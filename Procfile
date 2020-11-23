@@ -1,1 +1,1 @@
-web: gunicorn QuotesApp:QuotesApp
+web: falsk server.py

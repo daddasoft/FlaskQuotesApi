@@ -71,4 +71,4 @@ def logout():
 
 
 if(__name__ == "__main__"):
-    QuotesApp.run(port=5000, debug=True)
+    QuotesApp.run()
