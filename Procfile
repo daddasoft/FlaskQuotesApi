@@ -1,1 +1,1 @@
-web: gunicorn server:QuotesApp
+web: gunicorn QuotesApp:QuotesApp
