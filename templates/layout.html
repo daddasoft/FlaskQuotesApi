@@ -1,44 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{title}}</title>
-    <link
-      rel="stylesheet"
-      href="{{url_for('static',filename='css/semantic.min.css')}}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{url_for('static',filename='css/app.css')}}"
-    />
-  </head>
-  <body>
-    <div class="ui inverted menu">
-      <div class="ui container">
-        <a href="{{url_for('index')}}" class="item">Home</a>
-        <a href="{{url_for('getQuotes')}}" class="item">Quotes</a>
-        <div class="right menu">
-          {%if "user" not in session%}
-          <a href="{{url_for('login')}}" class="item">Login</a>
-          <a href="{{url_for('register')}}" class="item">Register</a>
-          {%endif%} {%if "user" in session%}
-          <div class="ui simple dropdown item">
-            {{session["user"]}} <i class="dropdown icon"></i>
-            <div class="menu">
-              <div class="header">Setting</div>
-              <a class="item" href="#">Profile</a>
-              <a class="item" href="#">Change Password</a>
-              <div class="divider"></div>
-              <form action="{{url_for('logout')}}" method="post">
-                <button class="logout">Log Out</button>
-              </form>
-            </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="{{url_for('static',filename='css/semantic.min.css')}}" />
+  <link rel="stylesheet" href="{{url_for('static',filename='css/app.css')}}" />
+</head>
+
+<body>
+  <div class="ui inverted menu">
+    <div class="ui container">
+      <a href="{{url_for('index')}}" class="item">Home</a>
+      <a href="{{url_for('getQuotes')}}" class="item">Quotes</a>
+      <div class="right menu">
+        {%if "user" not in session%}
+        <a href="{{url_for('login')}}" class="item">Login</a>
+        <a href="{{url_for('register')}}" class="item">Register</a>
+        {%endif%} {%if "user" in session%}
+        <div class="ui simple dropdown item">
+          {{session["user"]}} <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="header">Setting</div>
+            <a class="item" href="#">Profile</a>
+            <a class="item" href="{{url_for('archive')}}">my quotes</a>
+            <a class="item" href="{{url_for('change_password')}}">Change Password</a>
+            <div class="divider"></div>
+            <form action="{{url_for('logout')}}" method="post">
+              <button class="logout">Log Out</button>
+            </form>
           </div>
-          {%endif%}
         </div>
+        {%endif%}
       </div>
     </div>
-    {% block content%}{%endblock%}
-  </body>
+  </div>
+  {% block content%}{%endblock%}
+</body>
+
 </html>
