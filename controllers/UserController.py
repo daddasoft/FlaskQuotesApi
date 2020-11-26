@@ -71,3 +71,36 @@ def api_login(info):
             return jsonify({"password": "Password is Incorrect"}), 400
     else:
         return jsonify({"usename": "user not Found"}), 400
+
+def api_register():
+    data = request.get_json()
+    errors = {}
+    # username Validation
+    if("username" not in data or not re.search("^[a-z]+([0-9]+)?$", data["username"])):
+        errors["username"] = "Username is not Valid should have (small letter & no Spaces)"
+    elif (len(data["username"]) < 6 or len(data["username"]) > 15):
+        errors["username"] = "Username Should be between 6 and 15 Characters"
+    else:
+        if(checkAvailableUsername(data["username"].strip())):
+            errors["username"] = "There is a user with this Username"
+    # Email Validation
+    if("email" not in data or not re.search("[A-z0-9\.]+@[A-z0-9]+\.[A-z]+", data["email"])):
+        errors["email"] = "email is not Valid"
+    elif (len(data["email"]) > 25):
+        errors["email"] = "email is too Long"
+    else:
+        if(checkAvailableEmail(data["email"])):
+            errors["email"] = "email is Already Exist"
+    # username Password
+    if("password" not in data or len(data["password"].strip()) < 6 or len(data["password"].strip()) > 20):
+        errors["password"] = "password should contain between 6 and 20 characters"
+    if("password-confirm" not in data or data["password-confirm"] != data["password"]):
+        errors["password-confirm"] = "Confirm Password not valid"
+    if(errors):
+        return jsonify(errors), 400
+    else:
+        password = generate_password_hash(data["password"])
+        if(store(data["username"], data["email"], password)):
+            return api_login({"username": data["username"], "password": data["password"]})
+        return jsonify({"message": "can't create a user"}), 500
+
