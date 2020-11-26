@@ -49,3 +49,25 @@ def logout():
     session.pop("id", '')
     session.pop("role", '')
     return redirect(url_for('index'))
+
+def api_login(info):
+    data = (info or request.get_json())
+    if(not data):
+        return jsonify({"msg": "Please Provide a username and password"}), 400
+    if("username" not in data):
+        return jsonify({"msg": "Please Provide a username"}), 400
+    if("password" not in data):
+        return jsonify({"msg": "Please Provide a password"}), 400
+    username = data["username"]
+    password = data["password"]
+    userLogin = login(username)
+    if(userLogin["status"] == True):
+        if(check_password_hash(userLogin["password"], password)):
+            token = jwt.encode(payload={"userId": userLogin["userId"],
+                                        "username": userLogin["username"]}, key=env("JWT_SECRET"))
+            return jsonify({"token": token}), 200
+
+        else:
+            return jsonify({"password": "Password is Incorrect"}), 400
+    else:
+        return jsonify({"usename": "user not Found"}), 400
