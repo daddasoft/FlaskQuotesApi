@@ -1,5 +1,5 @@
 const form = document.getElementById("quoteForm");
-const API_URL = "/api/quotes";
+const API_URL = "/quotes";
 const button = document.getElementById("btn");
 const cardContainer = document.querySelector(".cardContainer");
 if (form) {
@@ -32,13 +32,17 @@ async function addQuote(dataObj) {
 }
 
 async function DeleteQuote(id) {
+  const delete_btn = document.querySelector(".ui.button.basic.red");
+  delete_btn.classList.add("loading");
   axios
     .delete(`${API_URL}/${id}`)
     .then((res) => {
       ShowSuccess("Quote Deleted Successfully");
+      delete_btn.classList.remove("loading");
     })
     .catch((err) => {
       ShowError(err.response.data.message);
+      delete_btn.classList.remove("loading");
     });
 }
 function ShowError(message) {
