@@ -14,8 +14,9 @@ from models.Quote import random
 
 def index():
     page = request.args.get("page")
+    limit = request.args.get("limit")
     if (page):
-        return Quote.paginate(page)
+        return Quote.paginate(page=page, limit=limit or (env("paginate") or 5))
     return Quote.get()
 
 
@@ -50,11 +51,12 @@ def delete(id):
 
 def homeIndex():
     page = request.args["page"] if "page" in request.args else 1
-    data = paginateforHome(page)
+    limit = request.args.get("limit") or (env("paginate") or 5)
+    data = paginateforHome(page=page, limit=limit)
     if("message" in data):
-        return render_template("index.html")
-    totalPages = ceil(data["count"]/5)
-    return render_template("index.html", data=data, total=int(totalPages), current=int(page), dataCount=len(data["data"]))
+        return render_template("index.html", title="quotes | home")
+    totalPages = ceil(data["count"]/(int(env("paginate") or 5)))
+    return render_template("index.html", title="quotes | home", data=data, total=int(totalPages), current=int(page), dataCount=len(data["data"]))
 
 
 def randomize():
