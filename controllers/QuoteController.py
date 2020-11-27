@@ -1,6 +1,8 @@
 from math import ceil
 from flask.globals import session
+from flask.helpers import url_for
 from flask.templating import render_template
+from werkzeug.utils import redirect
 from middlewares.Auth import isAuth
 from models import Quote
 from flask import request, jsonify
@@ -8,8 +10,10 @@ from middlewares.Quoteinfo import SetDefault
 from middlewares.Trim import Trim
 from middlewares.checkValideJsonFormat import CheckJson
 from middlewares.isTheOwner import checkOwner
-from models.Quote import paginateforHome
+from models.Quote import paginateforHome, archive
 from models.Quote import random
+from env import env
+from werkzeug.security import generate_password_hash
 
 
 def index():
@@ -40,7 +44,6 @@ def store():
 @isAuth
 def delete(id):
     res = Quote.destroy(id, session["id"])
-    print("user id : "+str(session["id"]) + " post : "+id)
     if(res > 0):
         return jsonify([]), 200
     elif (res < 0):
@@ -64,3 +67,7 @@ def randomize():
     if("message" in data):
         return jsonify(data), 400
     return jsonify(data), 200
+
+
+def get_archive():
+    return archive(session["id"])
