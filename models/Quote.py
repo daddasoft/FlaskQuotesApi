@@ -97,3 +97,16 @@ def random():
         return {"message": "Error for find any Quote"}
 
 
+def archive(id):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        cursor.execute(
+            f"SELECT q.id,q.category,q.author,q.body,q.createdAt FROM quotes q WHERE q.createdBy =%s", (id,))
+        res = cursor.fetchall()
+        database.commit()
+        if(cursor.rowcount > 0):
+            return res
+        return None
+    except:
+        return None
