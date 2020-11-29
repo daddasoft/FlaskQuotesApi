@@ -56,3 +56,18 @@ def login(username):
         return {"status": False, "message": "user not found"}
     except:
         return {"status": False, "message": "can't fetch a user"}
+
+def getUser(id):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        sql = f"SELECT id,email,role,username FROM `users` WHERE id=%s"
+        cursor.execute(sql, (id,))
+        res = cursor.fetchone()
+        database.commit()
+        if(cursor.rowcount > 0):
+            return {"status": True, "userId": res[0], "email": res[1], "username": res[3], "role": res[2]}
+        return {"status": False, "message": "user not found"}
+    except:
+        return {"status": False, "message": "can't fetch a user"}
+
