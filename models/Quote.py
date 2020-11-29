@@ -95,3 +95,5 @@ def random():
         return {"message": "can't find any Quote"}
     except:
         return {"message": "Error for find any Quote"}
+
+
