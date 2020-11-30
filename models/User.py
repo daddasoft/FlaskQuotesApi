@@ -57,6 +57,7 @@ def login(username):
     except:
         return {"status": False, "message": "can't fetch a user"}
 
+
 def getUser(id):
     try:
         database = connect()
