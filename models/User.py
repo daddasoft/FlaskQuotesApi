@@ -84,3 +84,16 @@ def getUserPassword(id):
         return None
     except:
         return None
+
+
+def change_password(new_password, id):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        sql = f"UPDATE  `users` SET password=%s WHERE id=%s"
+        cursor.execute(sql, (new_password, id))
+        database.commit()
+        if(cursor.rowcount > 0):
+            return True
+    except:
+        return False
