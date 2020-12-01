@@ -28,7 +28,19 @@ def randomQ():
     return Quote.randomize()
 
 
-@QuotesApp.route("/api/quotes",)
+@QuotesApp.route("/api/quotes/<id>", methods=["DELETE"])
+def apiDelete(id):
+    if("authorization" not in request.headers):
+        return jsonify({"msg": "Unauthorized"}), 401
+    try:
+        decoded = jwt.decode(
+            request.headers["authorization"], env("JWT_SECRET"))
+        userID = decoded["userId"]
+    except:
+        return jsonify({"msg": "Invalid / Expaired Token"}), 400
+    if(Quote.Quote.destroy(id, userID) == 1):
+        return jsonify([]), 200
+    return jsonify({"error": "can't Delete this Quote"})
 def getQuotes():
     data = Quote.index()
     if("message" not in data and len(data) != 0):
