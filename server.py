@@ -41,6 +41,32 @@ def apiDelete(id):
     if(Quote.Quote.destroy(id, userID) == 1):
         return jsonify([]), 200
     return jsonify({"error": "can't Delete this Quote"})
+@QuotesApp.route("/api/quotes", methods=["POST"])
+def apiStore():
+    if("authorization" not in request.headers):
+        return jsonify({"msg": "Unauthorized"}), 401
+    token = str(request.headers["authorization"]).strip().split("Bearer ")[-1]
+    try:
+        decoded = jwt.decode(
+            token, key=env("JWT_SECRET"), algorithms="HS256")
+        userID = decoded["userId"]
+    except Exception as v:
+        return jsonify({"msg": "Invalid / Expaired Token"}), 400
+
+    data = request.get_json()
+    if(not data):
+        return jsonify({"msg": "Please Provide a Quote Text"}), 400
+    if("body" not in data or len(data["body"]) < 5):
+        return jsonify({"body": "Please Provide a body for the Quote and have at least 5 characters"}), 400
+    if("author" not in data or len(data["author"].strip()) < 3):
+        data["author"] = 'Unknown'
+    if("category" not in data or len(data["category"].strip()) < 3):
+        data["category"] = 'other'
+    res = Quote.Quote.create(
+        data["body"], data["author"], userID, data["category"])
+    if(res["status"]):
+        return jsonify(res["data"][0]), 200
+    return jsonify(res), 400
 def getQuotes():
     data = Quote.index()
     if("message" not in data and len(data) != 0):
