@@ -5,11 +5,8 @@ Flask-Bootstrap4==4.0.2
 Flask-Cors==3.0.10
 Flask-SQLAlchemy==2.5.1
 Flask-WTF==0.15.1
-
 Jinja2==3.0.1
-
 mysql-connector==2.2.9
-
 PyJWT==2.1.0
 sqlparse>=0.4.1
 urllib3==1.26.5
