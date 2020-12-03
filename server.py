@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, render_template, session, redirect, url_for
 from flask_cors import CORS
 from werkzeug.security import check_password_hash
-from env import env
+# from env import env
 from controllers import QuoteController as Quote
 from controllers import UserController as User
 from utils.session_checker import session_check
@@ -39,7 +39,7 @@ def apiDelete(id):
         return jsonify({"msg": "Unauthorized"}), 401
     try:
         decoded = jwt.decode(
-            request.headers["authorization"], env("JWT_SECRET"))
+            request.headers["authorization"], "sdsadasdasd")
         userID = decoded["userId"]
     except:
         return jsonify({"msg": "Invalid / Expaired Token"}), 400
@@ -55,7 +55,7 @@ def apiStore():
     token = str(request.headers["authorization"]).strip().split("Bearer ")[-1]
     try:
         decoded = jwt.decode(
-            token, key=env("JWT_SECRET"), algorithms="HS256")
+            token, key="sdsadasdasd", algorithms="HS256")
         userID = decoded["userId"]
     except Exception as v:
         return jsonify({"msg": "Invalid / Expaired Token"}), 400
@@ -135,7 +135,7 @@ def checkAuth():
     token = str(request.headers["authorization"]).strip().split("Bearer ")[-1]
     try:
         decoded = jwt.decode(
-            token, key=env("JWT_SECRET"), algorithms="HS256")
+            token, key="sdsadasdasd", algorithms="HS256")
         userID = decoded["userId"]
     except:
         return jsonify({"msg": "Invalid / Expaired Token"}), 401
