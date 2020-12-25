@@ -39,7 +39,6 @@ def store():
 @isAuth
 def delete(id):
     res = Quote.destroy(id, session["id"])
-    print("user id : "+str(session["id"]) + " post : "+id)
     if(res > 0):
         return jsonify([]), 200
     elif (res < 0):
