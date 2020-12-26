@@ -1,12 +1,10 @@
 aniso8601==8.0.0
 asgiref==3.3.1
 autopep8==1.5.4
-click==7.1.2
-Django==3.1.3
-djangorestframework==3.12.2
 Flask==1.1.2
 Flask-Cors==3.0.9
 Flask-JWT==0.3.2
+jwt
 Flask-JWT-Extended==3.25.0
 Flask-RESTful==0.3.8
 Flask-SQLAlchemy==2.4.4
@@ -22,7 +20,6 @@ PyMySQL==0.10.1
 python-dotenv==0.15.0
 pytz==2020.4
 six==1.15.0
-SQLAlchemy==1.3.20
 sqlparse==0.4.1
 toml==0.10.2
 Werkzeug==1.0.1
