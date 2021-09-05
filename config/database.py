@@ -1,4 +1,4 @@
-from config.env import env
+from env import env
 import mysql.connector
 
 
