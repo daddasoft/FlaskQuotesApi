@@ -39,7 +39,9 @@
     <button id="btn" class="ui button primary" type="submit">add</button>
   </form>
   <div class="ui divider"></div>
-  {%endif%} {%if "data" in data and dataCount >0 %} {%for quote in
+  {%endif%}
+  {%if data%}
+  {%if "data" in data and dataCount >0 %} {%for quote in
   data["data"]%}
 
   <div class="cardContainer">
@@ -53,9 +55,7 @@
           <span class="date">Posted in {{quote[5]}}</span>
         </div>
         <p class="description" style="word-break: break-all">
-          <i class="quote left icon"></i> {{quote[1]}}<i
-            class="quote right icon"
-          ></i>
+          <i class="quote left icon"></i> {{quote[1]}}<i class="quote right icon"></i>
         </p>
       </div>
       {%if quote[3] == session["id"]%}
@@ -71,41 +71,28 @@
   </div>
 
   <!-- hello -->
-  <div
-    class="bu"
-    style="margin: auto; display: grid; place-items: center; padding: 20px"
-  >
+  <div class="bu" style="margin: auto; display: grid; place-items: center; padding: 20px">
     <div class="ui buttons">
       {%if total > 1%}
       <!--  -->
-      {%if (current-1 < 1) %}
-      <a class="ui button primary disabled"><i class="angle left icon"></i></a>
-      {%else%}
-      <a class="ui button primary" href="?page={{current-1}}" disabled
-        ><i class="angle left icon"></i
-      ></a>
-      <!--  -->
-      {%endif%}
-      <!--  -->
-      {% for p in range(1,total+1)%}
-      <a
-        class="ui button primary {%if(p==current)%}disabled{%endif%}"
-        href="?page={{p}}"
-        disabled
-        >{{p}}</a
-      >
-      {%endfor%}
-      <!--  -->
-      {%if( current+1 > total) %}
-      <a class="ui button primary disabled"><i class="angle right icon"></i></a>
-      {%else%}
-      <a class="ui button primary" href="?page={{current+1}}"
-        ><i class="angle right icon"></i
-      ></a>
-      {%endif%}
+      {%if (current-1 < 1) %} <a class="ui button primary disabled"><i class="angle left icon"></i></a>
+        {%else%}
+        <a class="ui button primary" href="?page={{current-1}}" disabled><i class="angle left icon"></i></a>
+        <!--  -->
+        {%endif%}
+        <!--  -->
+        {% for p in range(1,total+1)%}
+        <a class="ui button primary {%if(p==current)%}disabled{%endif%}" href="?page={{p}}" disabled>{{p}}</a>
+        {%endfor%}
+        <!--  -->
+        {%if( current+1 > total) %}
+        <a class="ui button primary disabled"><i class="angle right icon"></i></a>
+        {%else%}
+        <a class="ui button primary" href="?page={{current+1}}"><i class="angle right icon"></i></a>
+        {%endif%}
 
-      <!--  -->
-      {%endif%}
+        <!--  -->
+        {%endif%}
     </div>
   </div>
   <!-- Hello -->
@@ -115,6 +102,14 @@
     <p>no quote found ⌛</p>
   </div>
   {%endif%}
+  {%else%}
+  <div class="ui warning message">
+    <div class="header">404</div>
+    <p>no quote found ⌛</p>
+  </div>
+  {%endif%}
+
+
 </div>
 <script src="{{url_for('static',filename='js/axios.min.js')}}"></script>
 <script src="{{url_for('static',filename='js/quotes.js')}}"></script>
