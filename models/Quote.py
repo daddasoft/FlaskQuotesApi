@@ -1,6 +1,7 @@
 from config.database import connect
 from utils.toDictionary import ToDictionary
 from utils.PaginationCreator import PgCreator
+from env import env
 
 
 def get():
@@ -47,38 +48,43 @@ def destroy(id, userId):
         return 0
 
 
-def paginate(page=1):
+def paginate(page=1, limit=int(env("paginate") or 5)):
+    print(limit)
     try:
         database = connect()
         cursor = database.cursor()
-        OFFSET = abs(5 * (int(page)-1))
+        OFFSET = abs(int(limit) * (int(page)-1))
         cursor.execute(
-            f"SELECT * FROM quotes order by createdAt DESC LIMIT 5 OFFSET {OFFSET}")
+            f"SELECT * FROM quotes order by createdAt DESC LIMIT {limit} OFFSET {OFFSET}")
         result = cursor.fetchall()
         cursor.execute(f"SELECT COUNT(*) FROM quotes")
         res2 = cursor.fetchone()
-        resultByPG = PgCreator(res2[0], page, 5)
+        resultByPG = PgCreator(res2[0], page, limit)
         resultByPG["data"] = ToDictionary(result)
         database.commit()
+        print(resultByPG)
         return resultByPG
-    except:
+    except Exception as f:
+        print(f)
         return {"message": "can't find any Quote"}
 
 
-def paginateforHome(page=1):
+def paginateforHome(page=1, limit=int(env("paginate") or 5)):
+
     try:
         database = connect()
         cursor = database.cursor()
-        OFFSET = abs(5 * (int(page)-1))
+        OFFSET = abs(int(limit) * (int(page)-1))
         cursor.execute(
-            f"SELECT * FROM quotes order by createdAt DESC LIMIT  5 OFFSET {OFFSET}")
+            f"SELECT * FROM quotes order by createdAt DESC LIMIT {limit} OFFSET {OFFSET}")
         result = cursor.fetchall()
         cursor.execute(f"SELECT COUNT(*) FROM quotes")
         res2 = cursor.fetchone()
         result = {"data": result, "count": res2[0]}
         database.commit()
         return result
-    except:
+    except Exception as f:
+        print(f)
         return {"message": "can't find any Quote"}
 
 
