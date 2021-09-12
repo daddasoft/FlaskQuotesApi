@@ -10,12 +10,13 @@ from middlewares.checkValideJsonFormat import CheckJson
 from middlewares.isTheOwner import checkOwner
 from models.Quote import paginateforHome
 from models.Quote import random
+from env import env
 
 
 def index():
     page = request.args.get("page")
     if (page):
-        return Quote.paginate(page)
+        return Quote.paginate(page=page, limit=(env("paginate") or 5))
     return Quote.get()
 
 
@@ -49,10 +50,10 @@ def delete(id):
 
 def homeIndex():
     page = request.args["page"] if "page" in request.args else 1
-    data = paginateforHome(page)
+    data = paginateforHome(page=page, limit=(env("paginate") or 5))
     if("message" in data):
         return render_template("index.html")
-    totalPages = ceil(data["count"]/5)
+    totalPages = ceil(data["count"]/(int(env("paginate") or 5)))
     return render_template("index.html", data=data, total=int(totalPages), current=int(page), dataCount=len(data["data"]))
 
 
