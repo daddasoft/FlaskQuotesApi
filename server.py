@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, request, render_template, session, redirect, url_for
 from flask_cors import CORS
 from werkzeug.security import check_password_hash
-from config.env import env
+from env import env
 from controllers import QuoteController as Quote
 from controllers import UserController as User
+from utils.session_checker import session_check
+from models.User import getUser
 import jwt
 from datetime import timedelta, datetime
 QuotesApp = Flask(__name__)
@@ -36,6 +38,7 @@ def apiDelete(id):
     if("authorization" not in request.headers):
         return jsonify({"msg": "Unauthorized"}), 401
     try:
+        print(request.headers["authorization"])
         decoded = jwt.decode(
             request.headers["authorization"], env("JWT_SECRET"))
         userID = decoded["userId"]
@@ -50,11 +53,13 @@ def apiDelete(id):
 def apiStore():
     if("authorization" not in request.headers):
         return jsonify({"msg": "Unauthorized"}), 401
+    token = str(request.headers["authorization"]).strip().split("Bearer ")[-1]
+    print(f"token:{token}")
     try:
         decoded = jwt.decode(
-            request.headers["authorization"], env("JWT_SECRET"))
+            token, key=env("JWT_SECRET"), algorithms="HS256")
         userID = decoded["userId"]
-    except:
+    except Exception as v:
         return jsonify({"msg": "Invalid / Expaired Token"}), 400
 
     data = request.get_json()
@@ -87,9 +92,9 @@ def getToken():
     userLogin = User.login(username)
     if(userLogin["status"] == True):
         if(check_password_hash(userLogin["password"], password)):
-            token = jwt.encode(
-                {"userId": userLogin["userId"], "username": userLogin["username"]}, env("JWT_SECRET"))
-            return jsonify({"token": token.decode("UTF-8")}), 200
+            token = jwt.encode(payload={"userId": userLogin["userId"],
+                                        "username": userLogin["username"]}, key=env("JWT_SECRET"))
+            return jsonify({"token": token}), 200
         else:
             return jsonify({"password": "Password is Incorrect"}), 400
     else:
@@ -106,14 +111,32 @@ def getQuotes():
 
 @QuotesApp.route("/register")
 def register():
-    if("user" in session):
-        return redirect(url_for('index'))
+    session_check()
     return render_template('auth/register.html', title="Register")
 
 
 @QuotesApp.route("/register", methods=["POST"])
 def registerPost():
     return User.create()
+
+
+@QuotesApp.route("/api/me", methods=["GET"])
+def checkAuth():
+    if("authorization" not in request.headers):
+        return jsonify({"msg": "Unauthorized"}), 401
+    token = str(request.headers["authorization"]).strip().split("Bearer ")[-1]
+    print(f"token:{token}")
+    print(env("JWT_SECRET"))
+    try:
+        decoded = jwt.decode(
+            token, key=env("JWT_SECRET"), algorithms="HS256")
+        userID = decoded["userId"]
+    except Exception as v:
+        return jsonify({"msg": "Invalid / Expaired Token"}), 401
+    user = getUser(userID)
+    if(not user["status"]):
+        return jsonify({"msg": "User can't be found"}), 404
+    return user
 
 
 @QuotesApp.route("/login", methods=["POST"])
@@ -123,8 +146,7 @@ def loginPost():
 
 @QuotesApp.route("/login")
 def login():
-    if("user" in session):
-        return redirect(url_for('index'))
+    session_check()
     return render_template('auth/login.html', title="Login")
 
 
