@@ -1,3 +1,4 @@
+from utils.session_checker import session_check
 from flask import request, render_template
 from flask.globals import session
 from flask.helpers import url_for
@@ -10,8 +11,7 @@ from middlewares.UserRegister import RegisterValidator
 
 @RegisterValidator
 def create():
-    if("user" in session):
-        return redirect(url_for('index'))
+    session_check()
     username = request.form["username"]
     email = request.form["email"]
     password = generate_password_hash(request.form["password"])
@@ -22,8 +22,7 @@ def create():
 
 @LoginValidator
 def log():
-    if("user" in session):
-        return redirect(url_for('index'))
+    session_check()
     username = request.form["username"].strip()
     password = request.form["password"].strip()
     user = login(username)
@@ -43,8 +42,7 @@ def log():
 
 
 def logout():
-    if("user" not in session):
-        return redirect(url_for('login'))
+    session_check()
     session.pop("user", '')
     session.pop("id", '')
     session.pop("role", '')
