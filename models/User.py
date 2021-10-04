@@ -71,3 +71,30 @@ def getUser(id):
         return {"status": False, "message": "user not found"}
     except:
         return {"status": False, "message": "can't fetch a user"}
+
+
+def getUserPassword(id):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        cursor.execute(f"SELECT password FROM users WHERE id = %s ", (id,))
+        res = cursor.fetchone()
+        database.commit()
+        if(cursor.rowcount > 0):
+            return res[0]
+        return None
+    except:
+        return None
+
+
+def change_password(new_password, id):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        sql = f"UPDATE  `users` SET password=%s WHERE id=%s"
+        cursor.execute(sql, (new_password, id))
+        database.commit()
+        if(cursor.rowcount > 0):
+            return True
+    except:
+        return False

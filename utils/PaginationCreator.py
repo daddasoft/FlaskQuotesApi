@@ -10,4 +10,4 @@ def PgCreator(QuoteCount, currentPage, perPage):
         1 > 0 and currentPage - 1 < pageCount else None
 
     return {"pagination": {"nextpage": nextPage,
-                           "currentPage": currentPage, "prevPage": prevPage, "pages": pageCount, "perPage": int(env("paginate") or 5)}}
+                           "currentPage": currentPage, "prevPage": prevPage, "pages": pageCount, "perPage": int(perPage)}}

@@ -1,0 +1,43 @@
+{% extends 'layout.html' %} {% block content%}
+<div class="ui container">
+  <div class="ui success message successContainer" style="display: none">
+    <div class="header">Action Forbidden</div>
+    <p id="successMessage"></p>
+  </div>
+  {%if data %} {%for quote in
+  data%}
+
+  <div class="cardContainer">
+    <div class="ui card column" style="width: 100%">
+      <div class="content">
+        <div class="ui blue ribbon label" style="top: -12px">
+          <i class="hashtag icon"></i> {{quote[1]}}
+        </div>
+        <span class="header">{{quote[2]}}</span>
+        <div class="meta">
+          <span class="date">Posted in {{quote[4]}}</span>
+        </div>
+        <p class="description" style="word-break: break-all">
+          <i class="quote left icon"></i> {{quote[3]}}<i class="quote right icon"></i>
+        </p>
+      </div>
+      <div class="extra content">
+        <button class="ui button basic red" onclick="DeleteQuote({{quote[0]}})">
+          <i class="trash icon"></i>
+          Delete
+        </button>
+      </div>
+    </div>
+    {%endfor%}
+  </div>
+  {%else%}
+  <div class="ui warning message">
+    <div class="header">404</div>
+    <p>no quote found in archive ⌛</p>
+  </div>
+  {%endif%}
+
+</div>
+<script src="{{url_for('static',filename='js/axios.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/quotes.js')}}"></script>
+{%endblock%}

@@ -49,7 +49,6 @@ def destroy(id, userId):
 
 
 def paginate(page=1, limit=int(env("paginate") or 5)):
-    print(limit)
     try:
         database = connect()
         cursor = database.cursor()
@@ -61,11 +60,10 @@ def paginate(page=1, limit=int(env("paginate") or 5)):
         res2 = cursor.fetchone()
         resultByPG = PgCreator(res2[0], page, limit)
         resultByPG["data"] = ToDictionary(result)
+        resultByPG["pagination"]["items_count"] = len(result)
         database.commit()
-        print(resultByPG)
         return resultByPG
     except Exception as f:
-        print(f)
         return {"message": "can't find any Quote"}
 
 
@@ -84,7 +82,6 @@ def paginateforHome(page=1, limit=int(env("paginate") or 5)):
         database.commit()
         return result
     except Exception as f:
-        print(f)
         return {"message": "can't find any Quote"}
 
 
@@ -101,3 +98,18 @@ def random():
         return {"message": "can't find any Quote"}
     except:
         return {"message": "Error for find any Quote"}
+
+
+def archive(id):
+    try:
+        database = connect()
+        cursor = database.cursor()
+        cursor.execute(
+            f"SELECT q.id,q.category,q.author,q.body,q.createdAt FROM quotes q WHERE q.createdBy =%s", (id,))
+        res = cursor.fetchall()
+        database.commit()
+        if(cursor.rowcount > 0):
+            return res
+        return None
+    except:
+        return None

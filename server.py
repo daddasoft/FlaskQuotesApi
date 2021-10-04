@@ -38,7 +38,6 @@ def apiDelete(id):
     if("authorization" not in request.headers):
         return jsonify({"msg": "Unauthorized"}), 401
     try:
-        print(request.headers["authorization"])
         decoded = jwt.decode(
             request.headers["authorization"], env("JWT_SECRET"))
         userID = decoded["userId"]
@@ -54,7 +53,6 @@ def apiStore():
     if("authorization" not in request.headers):
         return jsonify({"msg": "Unauthorized"}), 401
     token = str(request.headers["authorization"]).strip().split("Bearer ")[-1]
-    print(f"token:{token}")
     try:
         decoded = jwt.decode(
             token, key=env("JWT_SECRET"), algorithms="HS256")
@@ -80,25 +78,22 @@ def apiStore():
 
 @QuotesApp.route("/api/login", methods=["POST"])
 def getToken():
-    data = request.get_json()
-    if(not data):
-        return jsonify({"msg": "Please Provide a username and password"}), 400
-    if("username" not in data):
-        return jsonify({"msg": "Please Provide a username"}), 400
-    if("password" not in data):
-        return jsonify({"msg": "Please Provide a password"}), 400
-    username = data["username"]
-    password = data["password"]
-    userLogin = User.login(username)
-    if(userLogin["status"] == True):
-        if(check_password_hash(userLogin["password"], password)):
-            token = jwt.encode(payload={"userId": userLogin["userId"],
-                                        "username": userLogin["username"]}, key=env("JWT_SECRET"))
-            return jsonify({"token": token}), 200
-        else:
-            return jsonify({"password": "Password is Incorrect"}), 400
-    else:
-        return jsonify({"usename": "user not Found"}), 400
+    return User.api_login(None)
+
+
+@QuotesApp.route("/change-password", methods=["GET"])
+def change_password():
+    if(not "user" in session):
+        return redirect(url_for("login"))
+
+    return render_template('auth/change-password.html', title="quotes | change password")
+
+
+@QuotesApp.route("/change-password", methods=["POST"])
+def change_password_post():
+    if(not "user" in session):
+        return redirect(url_for("login"))
+    return User.change_password()
 
 
 @QuotesApp.route("/api/quotes/",)
@@ -120,18 +115,29 @@ def registerPost():
     return User.create()
 
 
+@QuotesApp.route("/api/register", methods=["POST"])
+def registerAPI():
+    return User.api_register()
+
+
+@QuotesApp.route("/archive", methods=["GET"])
+def archive():
+    if(not "user" in session):
+        return redirect(url_for("login"))
+    res = Quote.get_archive()
+    return render_template('archive.html', data=res, title="quotes | my quotes")
+
+
 @QuotesApp.route("/api/me", methods=["GET"])
 def checkAuth():
     if("authorization" not in request.headers):
         return jsonify({"msg": "Unauthorized"}), 401
     token = str(request.headers["authorization"]).strip().split("Bearer ")[-1]
-    print(f"token:{token}")
-    print(env("JWT_SECRET"))
     try:
         decoded = jwt.decode(
             token, key=env("JWT_SECRET"), algorithms="HS256")
         userID = decoded["userId"]
-    except Exception as v:
+    except:
         return jsonify({"msg": "Invalid / Expaired Token"}), 401
     user = getUser(userID)
     if(not user["status"]):
