@@ -172,4 +172,4 @@ def error(errorCode):
 
 
 if(__name__ == "__main__"):
-    QuotesApp.run(host="0.0.0.0", debug=True)
+    QuotesApp.run()
