@@ -11,5 +11,10 @@ def connect():
             database=env("database")
         )
         return database
-    except:
+    except Exception as ex:
+        print(ex)
         return None
+print(env("host"))
+print(env("user"))
+print(env("pass"))
+print(env("database"))
