@@ -14,7 +14,7 @@ def connect():
     except Exception as ex:
         print(ex)
         return None
-print(env("host"))
-print(env("user"))
-print(env("pass"))
-print(env("database"))
+print("host : ",env("host"))
+print("user : ",env("user"))
+print("pass : ",env("pass"))
+print("db : ",env("database"))
