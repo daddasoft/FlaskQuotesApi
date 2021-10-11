@@ -5,10 +5,10 @@ import mysql.connector
 def connect():
     try:
         database = mysql.connector.connect(
-            host=env("host"),
-            user=env("user"),
-            passwd=env("pass"),
-            database=env("database")
+            host=env("remotemysql.com"),
+            user=env("8wophxXBD1"),
+            passwd=env("G1f5FlqOHS"),
+            database=env("8wophxXBD1")
         )
         return database
     except Exception as ex:
